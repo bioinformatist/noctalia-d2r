@@ -1,0 +1,28 @@
+id = "bioinformatist/d2r-tz"
+name = "D2R Terror Zones"
+version = "0.1.0"
+plugin_api = 24
+author = "bioinformatist"
+license = "MIT"
+icon = "skull"
+description = "Reign of the Warlock online Terror Zones in the Noctalia bar."
+tags = ["gaming", "diablo"]
+dependencies = ["xdg-open"]
+
+[[setting]]
+key = "zone_language"
+type = "select"
+label_key = "settings.zone_language.label"
+default = "en"
+options = [
+  { value = "en", label_key = "settings.zone_language.en" },
+  { value = "zh-Hans", label_key = "settings.zone_language.zh-Hans" },
+]
+
+[[widget]]
+id = "tz"
+entry = "widget.luau"
+
+[[service]]
+id = "tracker"
+entry = "tracker.luau"

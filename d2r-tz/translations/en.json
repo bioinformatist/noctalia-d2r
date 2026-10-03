@@ -1,0 +1,19 @@
+{
+  "settings.zone_language.label": "Zone names",
+  "settings.zone_language.en": "English",
+  "settings.zone_language.zh-Hans": "简体中文",
+  "unavailable": "Unavailable",
+  "refresh_failed": "Refresh failed",
+  "cached_failed": "Cached; refresh failed",
+  "not_announced": "Not announced",
+  "loot": "Loot",
+  "current": "Current",
+  "next": "Next",
+  "last_success": "Last successful acquisition",
+  "acquired_local": "local time; upstream freshness unknown",
+  "unknown_time": "Unknown",
+  "online": "Last refresh succeeded",
+  "ratings.group": "Full-group rating: {group} (D2TZ, retrieved {date}; {url})",
+  "ratings.legacy": "Best known component ratings: legacy Eww data (original external source unknown; {url})",
+  "ratings.unknown": "Rating unknown"
+}
