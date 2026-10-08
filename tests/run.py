@@ -2,6 +2,7 @@
 """Exercise the shipped Luau in one VM with native host stubs."""
 import argparse
 import json
+import re
 from pathlib import Path
 import subprocess
 import tempfile
@@ -65,6 +66,16 @@ def main():
         translations = json.loads(source("d2r-tz/translations/en.json"))
         assert translations == json.loads(source("d2r-tz/translations/zh-Hans.json"))
         body = body.replace("__TRANSLATIONS__", literal(translations))
+        names = json.loads(source("tests/zone-names.json"))
+        cases = []
+        for name in names["provider"] + names["rotw"]:
+            parts = re.split(r",\s*(?:and\s+)?|\s+and\s+|\s*/\s*|\s*\+\s*", name, flags=re.I)
+            variants = [name.upper(), " / ".join(reversed(parts)), ", ".join(parts),
+                        " and ".join(parts), " + ".join(parts), " & ".join(parts),
+                        " / ".join("The " + p.removeprefix("The ").removeprefix("the ") for p in parts),
+                        name.replace("'", "’").replace(" ", "\u00a0")]
+            cases.append({"name": name, "variants": variants})
+        body = body.replace("__ZONE_CASES__", literal(cases))
     if args.live:
         request = urllib.request.Request(URL, headers=HEADERS)
         with urllib.request.urlopen(request, timeout=15) as response:

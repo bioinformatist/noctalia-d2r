@@ -1,6 +1,6 @@
 id = "bioinformatist/d2r-tz"
 name = "暗黑2恐怖地带"
-version = "0.1.2"
+version = "0.1.3"
 plugin_api = 24
 author = "bioinformatist"
 license = "MIT"

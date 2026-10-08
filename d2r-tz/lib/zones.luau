@@ -49,48 +49,138 @@ local groups = {
     { "Worldstone Keep, Throne of Destruction, and Worldstone Chamber", "世界之石要塞、毁灭王座与世界之石大殿", { "Worldstone Keep", "Throne of Destruction", "Worldstone Chamber" } },
 }
 
-local areaAliases = {
-    ["pit"] = "The Pit", ["cave"] = "The Cave", ["hole"] = "The Hole",
-    ["crypt"] = "The Crypt", ["the mausoleum"] = "Mausoleum",
-    ["the forgotten tower"] = "Forgotten Tower",
-    ["act 2 sewers"] = "Act 2 Sewers",
-    ["tal rasha's tomb"] = "Tal Rasha's Tombs",
-    ["abbadon"] = "Abaddon",
-}
 local zhAreas = {
-    ["The Pit"] = "地穴", ["Forgotten Tower"] = "遗忘之塔",
-    ["Stony Field"] = "石块旷野", ["Tristram"] = "崔斯特瑞姆",
-    ["Far Oasis"] = "遥远绿洲", ["Ancient Tunnels"] = "古代通道",
+    ["Blood Moor"] = "鲜血荒地",
+    ["Den of Evil"] = "邪恶洞窟",
+    ["Cold Plains"] = "冰冷之原",
+    ["The Cave"] = "洞窟",
+    ["Stony Field"] = "石块旷野",
+    ["Tristram"] = "崔斯特瑞姆",
+    ["Dark Wood"] = "黑暗森林",
+    ["Underground Passage"] = "地下通道",
+    ["Black Marsh"] = "黑色荒地",
+    ["The Hole"] = "地洞",
+    ["Tamoe Highland"] = "泰摩高地",
+    ["Outer Cloister"] = "外侧回廊",
+    ["Inner Cloister"] = "内侧回廊",
+    ["Monastery Gate"] = "修道院大门",
+    ["Barracks"] = "军营",
+    ["Jail"] = "监牢",
+    ["Cathedral"] = "大教堂",
+    ["Catacombs"] = "地下墓穴",
+    ["The Pit"] = "地穴",
+    ["Forgotten Tower"] = "遗忘之塔",
+    ["Tower Cellar"] = "高塔地窖",
+    ["Burial Grounds"] = "埋骨之地",
+    ["The Crypt"] = "墓穴",
+    ["Mausoleum"] = "大陵寝",
+    ["Moo Moo Farm"] = "哞哞农场",
+    ["Secret Cow Level"] = "哞哞农场",
+    ["Lut Gholein Sewers"] = "鲁高因下水道",
+    ["Act 2 Sewers"] = "鲁高因下水道",
+    ["Rocky Waste"] = "碎石荒地",
+    ["Stony Tomb"] = "石制古墓",
+    ["Dry Hills"] = "干燥高地",
+    ["Halls of the Dead"] = "死亡之殿",
+    ["Far Oasis"] = "遥远绿洲",
+    ["Lost City"] = "失落之城",
+    ["Valley of Snakes"] = "群蛇峡谷",
+    ["Claw Viper Temple"] = "利爪蝮蛇神殿",
+    ["Ancient Tunnels"] = "古代通道",
+    ["Harem"] = "后宫",
+    ["Palace Cellar"] = "皇宫地窖",
     ["Arcane Sanctuary"] = "神秘庇护所",
-    ["Frozen Tundra"] = "冰冻苔原", ["Infernal Pit"] = "地狱深坑",
-    ["Maggot Lair"] = "蛆虫巢穴", ["Arachnid Lair"] = "蜘蛛巢穴",
-    ["Spider Forest"] = "蜘蛛森林", ["Spider Cavern"] = "蜘蛛洞窟",
-    ["Tal Rasha's Tombs"] = "塔拉夏古墓", ["Tal Rasha's Chamber"] = "塔拉夏密室",
-    ["Canyon of the Magi"] = "术士峡谷", ["Kurast Bazaar"] = "库拉斯特商场",
-    ["Kurast Causeway"] = "库拉斯特堤道", ["Kurast Sewers"] = "库拉斯特下水道",
-    ["Ruined Temple"] = "残破神殿", ["Disused Fane"] = "废弃圣坛",
-    ["Forgotten Reliquary"] = "遗忘圣物室", ["Forgotten Temple"] = "遗忘神殿",
-    ["Ruined Fane"] = "残破圣坛", ["Disused Reliquary"] = "废弃圣物室",
+    ["Canyon of the Magi"] = "术士峡谷",
+    ["Tal Rasha's Tombs"] = "塔拉夏古墓",
+    ["Tal Rasha's Chamber"] = "塔拉夏密室",
+    ["Spider Forest"] = "蜘蛛森林",
+    ["Spider Cavern"] = "蜘蛛洞窟",
+    ["Arachnid Lair"] = "蜘蛛巢穴",
+    ["Maggot Lair"] = "蛆虫巢穴",
+    ["Great Marsh"] = "庞大湿地",
+    ["Flayer Jungle"] = "剥皮丛林",
+    ["Swampy Pit"] = "沼泽地洞",
+    ["Flayer Dungeon"] = "剥皮地牢",
+    ["Kurast Bazaar"] = "库拉斯特商场",
+    ["Ruined Temple"] = "残破神殿",
+    ["Disused Fane"] = "废弃圣坛",
+    ["Upper Kurast"] = "上层库拉斯特",
+    ["Kurast Causeway"] = "库拉斯特堤道",
+    ["Lower Kurast"] = "下层库拉斯特",
+    ["Travincal"] = "崔凡克",
+    ["Durance of Hate"] = "憎恨囚牢",
+    ["Kurast Sewers"] = "库拉斯特下水道",
+    ["Forgotten Reliquary"] = "遗忘圣物室",
+    ["Forgotten Temple"] = "遗忘神殿",
+    ["Ruined Fane"] = "残破圣坛",
+    ["Disused Reliquary"] = "废弃圣物室",
+    ["Outer Steppes"] = "外围荒原",
+    ["Plains of Despair"] = "绝望平原",
+    ["City of the Damned"] = "神罚之城",
+    ["River of Flame"] = "火焰之河",
+    ["Chaos Sanctuary"] = "混沌庇护所",
+    ["Bloody Foothills"] = "血腥丘陵",
+    ["Frigid Highlands"] = "冰冻高地",
+    ["Abaddon"] = "亚巴顿",
+    ["Arreat Plateau"] = "亚瑞特高原",
+    ["Pit of Acheron"] = "冥河之洞",
+    ["Crystalline Passage"] = "水晶通道",
+    ["Frozen River"] = "冰河",
+    ["Glacial Trail"] = "冰河路径",
+    ["Drifter Cavern"] = "漂泊者洞穴",
+    ["Frozen Tundra"] = "冰冻苔原",
+    ["Infernal Pit"] = "地狱深坑",
+    ["Ancient's Way"] = "先祖之路",
+    ["Icy Cellar"] = "冰窖",
+    ["Halls of Anguish"] = "痛苦之厅",
+    ["Halls of Pain"] = "悲惨之厅",
+    ["Halls of Vaught"] = "沃特之厅",
+    ["Nihlathak's Temple"] = "尼拉塞克神殿",
+    ["Temple Halls"] = "神殿诸厅",
+    ["Worldstone Keep"] = "世界之石要塞",
+    ["Throne of Destruction"] = "毁灭王座",
+    ["Worldstone Chamber"] = "世界之石大殿",
 }
-local knownAreas = {}
-for _, group in ipairs(groups) do
-    for _, name in ipairs(group[3]) do knownAreas[name] = true end
-end
 
 local function norm(s)
-    return string.lower((string.gsub(s, "^%s*(.-)%s*$", "%1")))
+    s = string.gsub(s, " ", " ")
+    s = string.gsub(s, " ", " ")
+    s = string.gsub(s, "’", "'")
+    s = string.gsub(s, "%s+", " ")
+    s = string.lower((string.gsub(s, "^%s*(.-)%s*$", "%1")))
+    return (string.gsub(s, "^the%s+", ""))
 end
--- Match the same complete known group across provider separators and order.
--- Unknown groups still fall through unchanged; this does not grade new areas.
-local function groupKey(name)
-    name = norm(name)
+local areaByName = {}
+for name in pairs(zhAreas) do areaByName[norm(name)] = name end
+local areaAliases = {
+    ["act 2 sewers"] = "Lut Gholein Sewers",
+    ["secret cow level"] = "Moo Moo Farm",
+    ["tal rasha's tomb"] = "Tal Rasha's Tombs",
+    ["abbadon"] = "Abaddon",
+    ["palace"] = "Palace Cellar",
+    ["ancients' way"] = "Ancient's Way",
+    ["ancients way"] = "Ancient's Way",
+    ["halls of vaught (temple halls)"] = "Halls of Vaught",
+}
+local function area(name)
+    return areaAliases[norm(name)] or areaByName[norm(name)]
+end
+local function parts(name)
+    name = string.lower(name)
+    name = string.gsub(name, " ", " ")
+    name = string.gsub(name, " ", " ")
     name = string.gsub(name, ",%s*and%s+", "/")
     name = string.gsub(name, "%s+and%s+", "/")
-    name = string.gsub(name, ",", "/")
-    local parts = string.split(name, "/")
-    for i, part in ipairs(parts) do parts[i] = norm(part) end
-    table.sort(parts)
-    return table.concat(parts, "/")
+    name = string.gsub(name, "[,+&]", "/")
+    return string.split(name, "/")
+end
+-- Normalize every area before matching a whole group. Retain explicit group
+-- aliases and their ratings; other complete known combinations use area data.
+local function groupKey(name)
+    local names = parts(name)
+    for i, part in ipairs(names) do names[i] = area(part) or norm(part) end
+    table.sort(names)
+    return table.concat(names, "/")
 end
 local groupByName = {}
 for _, group in ipairs(groups) do
@@ -105,14 +195,11 @@ local function best(old, incoming)
     if incoming and (old == "?" or rank[incoming] > rank[old]) then return incoming end
     return old
 end
-local function area(name)
-    name = string.gsub(name, "^%s*(.-)%s*$", "%1")
-    return areaAliases[norm(name)] or name
-end
 local function grade(parts)
     local xp, loot, found = "?", "?", 0
     for _, part in ipairs(parts) do
-        local rating = legacy[area(part)]
+        local name = area(part)
+        local rating = name and legacy[name]
         if rating then
             xp, loot = best(xp, rating.xp), best(loot, rating.loot)
             found += 1
@@ -136,16 +223,18 @@ function M.lookup(raw, language)
             sourceGroup = override and override.sourceGroup or nil,
         }
     end
-    -- Preserve unrecognized names. Partial legacy lookup only uses explicit
-    -- separators; an unknown future name containing "and" stays intact.
-    local parts = string.split(raw, "/")
-    local xp, loot, found = grade(parts)
-    local display = raw
-    if language == "zh-Hans" and #parts == 1 and knownAreas[area(raw)] then
-        display = zhAreas[area(raw)] or raw
+    local names, translated = parts(raw), {}
+    for i, part in ipairs(names) do
+        names[i] = area(part)
+        if not names[i] then
+            -- Do not present a partial grade as a rating for an unknown group.
+            return { en = raw, display = raw, xp = "?", loot = "?", provenance = "unknown" }
+        end
+        translated[i] = zhAreas[names[i]]
     end
-    return { en = raw, display = display, xp = xp, loot = loot,
-        provenance = found > 0 and "legacy" or "unknown" }
+    local xp, loot, found = grade(names)
+    return { en = raw, display = language == "zh-Hans" and table.concat(translated, "／") or raw,
+        xp = xp, loot = loot, provenance = found > 0 and "legacy" or "unknown" }
 end
 
 return M
