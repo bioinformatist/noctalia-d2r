@@ -176,3 +176,41 @@ for _, fn in ipairs(watched.tracker) do
 end
 assert(tips[#tips] == "当前：冰冷之原与洞窟（经验 A／掉落 B）\n下一轮：地穴／泰摩高地／外侧回廊（经验 S／掉落 A）", tips[#tips])
 print("deterministic Luau behavior: pass")
+
+-- Supplier inventory and Blizzard RotW rotations, including all name formats.
+-- Each response travels through the real parser, state watchers and widget.
+local cases = __ZONE_CASES__
+local checked = 0
+for _, case in ipairs(cases) do
+    local baseline = zones.lookup(case.name, "zh-Hans")
+    assert(not string.find(baseline.display, "%a"), case.name .. ": " .. baseline.display)
+    assert(baseline.xp ~= "?" and baseline.loot ~= "?", case.name)
+    for _, name in ipairs(case.variants) do
+        local value = zones.lookup(name, "zh-Hans")
+        assert(not string.find(value.display, "%a"), name .. ": " .. value.display)
+        assert(value.xp == baseline.xp and value.loot == baseline.loot, name)
+        assert(value.provenance == baseline.provenance, name)
+        decoded.inventory = { current = name, next = case.name }
+        local current, nextZone = response.parse("inventory")
+        for _, fn in ipairs(watched.tracker) do fn({ current = current, next = nextZone }) end
+        local tipNames = string.gsub(tips[#tips], "（经验 [SABCDF]／掉落 [SABCDF]）", "")
+        assert(not string.find(tipNames, "%a"), tips[#tips])
+        assert(not string.find(tips[#tips], "?", 1, true), tips[#tips])
+        local barNames = string.gsub(texts[#texts], "经验 [SABCDF]／掉落 [SABCDF]", "")
+        assert(not string.find(barNames, "%a"), texts[#texts])
+        checked += 1
+    end
+end
+for name, rating in pairs(original) do
+    local value = zones.lookup(string.upper(name), "zh-Hans")
+    assert(not string.find(value.display, "%a"), name .. ": " .. value.display)
+    assert(value.xp == rating.xp and value.loot == rating.loot, name)
+end
+for _, name in ipairs({ "The Pit and Unknown future zone", "The Pit / Unknown future zone",
+    "Rock and Roll Canyon", "New Palace", "Moo Moo Farmhouse" }) do
+    local value = zones.lookup(name, "zh-Hans")
+    assert(value.display == name and value.xp == "?" and value.loot == "?", name)
+end
+assert(zones.lookup("Blood Moor and Den of Evil", "zh-Hans").display == "鲜血荒地／邪恶洞窟")
+assert(zones.lookup("Blood Moor and Den of Evil", "zh-Hans").xp == "F")
+print("complete provider/RotW inventory -> widget: " .. checked .. " variants pass")
