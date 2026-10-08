@@ -9,44 +9,29 @@ local function short(name)
     return byte and string.sub(name, 1, byte - 1) or name
 end
 
-local function provenance(zone)
-    if zone.provenance == "group" then
-        return noctalia.tr("ratings.group", { group = zone.sourceGroup,
-            date = zones.groupRetrieved, url = zones.groupSource })
-    elseif zone.provenance == "legacy" then
-        return noctalia.tr("ratings.legacy", { url = zones.legacySource })
-    end
-    return noctalia.tr("ratings.unknown")
+local function zoneLine(label, zone, fallback)
+    local name = zone and zone.display or noctalia.tr(fallback)
+    local xp = zone and zone.xp or "?"
+    local loot = zone and zone.loot or "?"
+    return noctalia.tr(label) .. "：" .. name .. "（" .. noctalia.tr("xp") .. " " .. xp
+        .. "／" .. noctalia.tr("loot") .. " " .. loot .. "）"
 end
 
 local function render(value)
     barWidget.setGlyph("skull")
     if type(value) ~= "table" or type(value.current) ~= "string" then
-        barWidget.setText("D2RW · " .. noctalia.tr("unavailable"))
-        barWidget.setTooltip(noctalia.tr("refresh_failed") .. "\n" .. TRACKER)
+        barWidget.setText(noctalia.tr("title") .. " · " .. noctalia.tr("unavailable"))
+        barWidget.setTooltip(zoneLine("current", nil, "unavailable") .. "\n"
+            .. zoneLine("next", nil, "not_announced"))
         return
     end
     local current = zones.lookup(value.current, language)
     local nextZone = zones.lookup(value.next, language)
     local status = value.failed and (" · " .. noctalia.tr("cached_failed")) or ""
-    barWidget.setText("D2RW · " .. short(current.display) .. " · XP " .. current.xp .. " / " .. noctalia.tr("loot") .. " " .. current.loot .. status)
-    local nextName = nextZone and nextZone.display or noctalia.tr("not_announced")
-    local nextXp = nextZone and nextZone.xp or "?"
-    local nextLoot = nextZone and nextZone.loot or "?"
-    local nextSource = nextZone and provenance(nextZone) or noctalia.tr("ratings.unknown")
-    local acquired = type(value.lastSuccess) == "number"
-        and noctalia.formatTime("%Y-%m-%d %H:%M:%S %Z", value.lastSuccess)
-        or noctalia.tr("unknown_time")
-    barWidget.setTooltip(table.concat({
-        "D2RW — D2Runewizard",
-        (value.failed and noctalia.tr("cached_failed") or noctalia.tr("online")),
-        noctalia.tr("current") .. ": " .. current.display .. " — XP " .. current.xp .. " / " .. noctalia.tr("loot") .. " " .. current.loot,
-        provenance(current),
-        noctalia.tr("next") .. ": " .. nextName .. " — XP " .. nextXp .. " / " .. noctalia.tr("loot") .. " " .. nextLoot,
-        nextSource,
-        noctalia.tr("last_success") .. ": " .. acquired .. " (" .. noctalia.tr("acquired_local") .. ")",
-        TRACKER,
-    }, "\n"))
+    barWidget.setText(noctalia.tr("title") .. " · " .. short(current.display) .. " · "
+        .. noctalia.tr("xp") .. " " .. current.xp .. "／" .. noctalia.tr("loot") .. " " .. current.loot .. status)
+    barWidget.setTooltip(zoneLine("current", current, "unavailable") .. "\n"
+        .. zoneLine("next", nextZone, "not_announced"))
 end
 
 noctalia.state.watch("tracker", function(value)

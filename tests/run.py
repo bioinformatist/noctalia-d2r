@@ -62,6 +62,9 @@ def main():
     if not args.live:
         original = json.loads(source("tests/legacy.json"))
         body = body.replace("__LEGACY_FIXTURE__", literal(original))
+        translations = json.loads(source("d2r-tz/translations/en.json"))
+        assert translations == json.loads(source("d2r-tz/translations/zh-Hans.json"))
+        body = body.replace("__TRANSLATIONS__", literal(translations))
     if args.live:
         request = urllib.request.Request(URL, headers=HEADERS)
         with urllib.request.urlopen(request, timeout=15) as response:

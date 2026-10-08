@@ -1,11 +1,11 @@
 [[plugin]]
 id = "bioinformatist/d2r-tz"
-name = "D2R Terror Zones"
-version = "0.1.0"
+name = "暗黑2恐怖地带"
+version = "0.1.1"
 author = "bioinformatist"
 license = "MIT"
 icon = "skull"
-description = "Reign of the Warlock online Terror Zones in the Noctalia bar."
+description = "显示术士君临在线恐怖地带及经验、掉落评级。"
 plugin_api = 24
 tags = ["gaming", "diablo"]
 dependencies = ["xdg-open"]

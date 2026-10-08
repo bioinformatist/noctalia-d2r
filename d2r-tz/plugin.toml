@@ -1,11 +1,11 @@
 id = "bioinformatist/d2r-tz"
-name = "D2R Terror Zones"
-version = "0.1.0"
+name = "暗黑2恐怖地带"
+version = "0.1.1"
 plugin_api = 24
 author = "bioinformatist"
 license = "MIT"
 icon = "skull"
-description = "Reign of the Warlock online Terror Zones in the Noctalia bar."
+description = "显示术士君临在线恐怖地带及经验、掉落评级。"
 tags = ["gaming", "diablo"]
 dependencies = ["xdg-open"]
 
@@ -13,7 +13,7 @@ dependencies = ["xdg-open"]
 key = "zone_language"
 type = "select"
 label_key = "settings.zone_language.label"
-default = "en"
+default = "zh-Hans"
 options = [
   { value = "en", label_key = "settings.zone_language.en" },
   { value = "zh-Hans", label_key = "settings.zone_language.zh-Hans" },
