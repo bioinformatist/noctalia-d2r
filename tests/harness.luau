@@ -90,6 +90,11 @@ end
 assert(zones.lookup("Kurast Bazaar, Kurast Causeway and Kurast Sewers", "en").provenance == "group")
 assert(zones.lookup("Canyon of the Magi and Tal Rasha's Tombs", "en").loot == "A")
 assert(zones.lookup("Tamoe Highland/Outer Cloister/Pit", "en").xp == "S")
+assert(zones.lookup("Tamoe Highland, Outer Cloister, The Pit", "zh-Hans").display == "地穴／泰摩高地／外侧回廊")
+assert(zones.lookup("The Pit / Outer Cloister / Tamoe Highland", "zh-Hans").loot == "A")
+local unknownGroup = "Tamoe Highland, Outer Cloister, and Unknown future zone"
+assert(zones.lookup(unknownGroup, "zh-Hans").display == unknownGroup)
+assert(zones.lookup(unknownGroup, "zh-Hans").xp == "?")
 assert(zones.lookup("Temple Halls", "en").loot == "A")
 assert(zones.lookup("Unknown future zone", "en").display == "Unknown future zone")
 assert(zones.lookup("Unknown future zone", "en").xp == "?")
@@ -162,4 +167,12 @@ assert(opened[1][1] == "xdg-open" and opened[1][2] == "https://d2runewizard.com/
 acceptRequest = false
 update()
 assert(#requests == 4 and state.tracker.failed and state.tracker.current == "The Pit")
+-- Live provider payload observed on 2026-10-08: exercise parser -> widget.
+decoded.provider = { current = "Cold Plains and The Cave",
+    next = "Tamoe Highland, Outer Cloister, and The Pit" }
+local liveCurrent, liveNext = response.parse("provider")
+for _, fn in ipairs(watched.tracker) do
+    fn({ current = liveCurrent, next = liveNext, failed = false })
+end
+assert(tips[#tips] == "当前：冰冷之原与洞窟（经验 A／掉落 B）\n下一轮：地穴／泰摩高地／外侧回廊（经验 S／掉落 A）", tips[#tips])
 print("deterministic Luau behavior: pass")

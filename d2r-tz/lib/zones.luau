@@ -80,11 +80,23 @@ end
 local function norm(s)
     return string.lower((string.gsub(s, "^%s*(.-)%s*$", "%1")))
 end
+-- Match the same complete known group across provider separators and order.
+-- Unknown groups still fall through unchanged; this does not grade new areas.
+local function groupKey(name)
+    name = norm(name)
+    name = string.gsub(name, ",%s*and%s+", "/")
+    name = string.gsub(name, "%s+and%s+", "/")
+    name = string.gsub(name, ",", "/")
+    local parts = string.split(name, "/")
+    for i, part in ipairs(parts) do parts[i] = norm(part) end
+    table.sort(parts)
+    return table.concat(parts, "/")
+end
 local groupByName = {}
 for _, group in ipairs(groups) do
-    groupByName[norm(group[1])] = group
+    groupByName[groupKey(group[1])] = group
     for _, alias in ipairs(group[4] or {}) do
-        groupByName[norm(alias)] = group
+        groupByName[groupKey(alias)] = group
     end
 end
 
@@ -111,7 +123,7 @@ end
 
 function M.lookup(raw, language)
     if type(raw) ~= "string" or raw == "" then return nil end
-    local group = groupByName[norm(raw)]
+    local group = groupByName[groupKey(raw)]
     if group then
         local override = group[5]
         local xp, loot = "?", "?"
