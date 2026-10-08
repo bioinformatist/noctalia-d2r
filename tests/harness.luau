@@ -5,7 +5,8 @@ local requests = {}
 local texts = {}
 local tips = {}
 local opened = {}
-local language = "en"
+local language = "zh-Hans"
+local translations = __TRANSLATIONS__
 local acceptRequest = true
 noctalia = {
     json = { decode = function(body) return decoded[body] end },
@@ -28,8 +29,8 @@ noctalia = {
     setUpdateInterval = function(ms) assert(ms == 120000) end,
     nowMs = function() return 1790950000000 end,
     getConfig = function() return language end,
-    tr = function(key) return key end,
-    formatTime = function(_, epoch) assert(epoch == 1790950000); return "2026-10-02 22:06:40 CST" end,
+    -- Host UI is English; the plugin's fallback bundle must still be Chinese.
+    tr = function(key) return translations[key] or key end,
     runAsync = function(args) table.insert(opened, args) end,
 }
 barWidget = {
@@ -125,7 +126,8 @@ assert(#requests == 1)
 requests[1].callback({ ok = false, status = 500, body = "" })
 assert(state.tracker.failed and state.tracker.current == nil)
 require("../d2r-tz/widget")
-assert(string.find(texts[#texts], "unavailable"))
+assert(texts[#texts] == "恐怖地带 · 暂无数据")
+assert(tips[#tips] == "当前：暂无数据（经验 ?／掉落 ?）\n下一轮：尚未公布（经验 ?／掉落 ?）")
 local firstCount = #watched.tracker
 require("../d2r-tz/widget_copy")
 assert(#watched.tracker == firstCount + 1)
@@ -133,7 +135,7 @@ update()
 assert(#requests == 2)
 requests[2].callback({ ok = true, status = 200, body = "missing" })
 assert(state.tracker.current == "The Pit" and state.tracker.next == nil and not state.tracker.failed)
-assert(string.find(tips[#tips], "not_announced"))
+assert(tips[#tips] == "当前：地穴（经验 S／掉落 A）\n下一轮：尚未公布（经验 ?／掉落 ?）")
 assert(#requests == 2)
 language = "zh-Hans"
 require("../d2r-tz/widget_copy") -- settings reload rebuilds a widget
@@ -149,11 +151,12 @@ language = "en"
 update()
 requests[3].callback({ ok = true, status = 200, body = "bad" })
 assert(state.tracker.failed and state.tracker.current == "The Pit")
-assert(string.find(texts[#texts], "cached_failed"))
+assert(string.find(texts[#texts], "更新失败", 1, true))
 update()
 requests[4].callback({ ok = true, status = 200, body = "flat" })
 assert(not state.tracker.failed and state.tracker.next == "Frozen Tundra and Infernal Pit")
-assert(string.find(tips[#tips], "ratings.group"))
+assert(tips[#tips] == "当前：地穴（经验 S／掉落 A）\n下一轮：冰冻苔原与地狱深坑（经验 B／掉落 B）")
+assert(texts[#texts] == "恐怖地带 · 地穴 · 经验 S／掉落 A")
 onClick()
 assert(opened[1][1] == "xdg-open" and opened[1][2] == "https://d2runewizard.com/terror-zone-tracker")
 acceptRequest = false
